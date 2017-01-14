@@ -2,7 +2,7 @@
 	xml2sql.py
 	Kailash Nadh, http://nadh.in
 	October 2011
-	
+
 	License:        MIT License
 	Documentation:    http://nadh.in/code/xmlutils.py
 """
@@ -26,6 +26,7 @@ class xml2sql:
 		self.sql_insert = None
 		self.output = None
 		self.num_insert = 0
+		self.output_filename = output_file
 
 		# open the xml file for iteration
 		self.context = et.iterparse(input_file, events=("start", "end"))
@@ -103,9 +104,9 @@ class xml2sql:
 					tagged = True
 
 					if self.sql_insert is None:
-						self.sql_insert = 'INSERT INTO ' + table + ' (' + ','.join(fields) + ')\n'
+						self.sql_insert = 'INSERT INTO ' + table + ' (' + ','.join(fields) + ',unikatowaNazwaEksportu)\n'
 
-					sql = r'("' + r'", "'.join(items) + r'")'
+					sql = r'("' + r'", "'.join(items) + r'", "' + self.output_filename + r'")'
 					sql_len += len(sql)
 
 					if sql_len + len(self.sql_insert) + 100 < max_packet:
